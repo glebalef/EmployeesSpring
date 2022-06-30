@@ -2,61 +2,52 @@ package com.skypro.EmployeesListProject;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    ArrayList<Employee> employees = new ArrayList<>(List.of(
-
-            new Employee("Кими", "Райкконен"),
-            new Employee("Майкл", "Фелпс"),
-            new Employee("Альберт", "Эйнштейн"),
-            new Employee("Луис", "Армстронг"),
-            new Employee("Николь", "Кидман"),
-            new Employee("Ева", "Грин")
-    )
-    );
+    Map<String, Employee> employees = new HashMap<>();
 
     public final int maxEmployeesQuant = 7;
 
     @Override
     public Employee addEmployee(String firstName, String lastName) {
         Employee newEmployee = new Employee(firstName, lastName);
+        String fullName = firstName+" "+lastName;
         if (employees.size() == maxEmployeesQuant) {
             throw new EmployeeStorageIsFullException();
-        } else if (employees.contains(newEmployee)) {
+        } else if (employees.containsKey(fullName)) {
             throw new EmployeeAlreadyAddedException();
         }
-            employees.add(newEmployee);
+            employees.put(fullName,newEmployee);
             return newEmployee;
         }
 
         @Override
         public Employee removeEmployee (String firstName, String lastName) {
-            Employee newEmployee = new Employee(firstName, lastName);
-            if (employees.contains(newEmployee)==false) {
+            String fullName = firstName+" "+lastName;
+            if (!employees.containsKey(fullName)) {
                 throw new EmployeeNotFoundExcepation();
             } else {
-                employees.remove(newEmployee);
-                return newEmployee;
+                employees.remove(fullName);
+                return new Employee(firstName, lastName);
             }
         }
 
         @Override
-        public Employee findEmployee (String firstName, String lastName){
-               Employee newEmployee = new Employee(firstName,lastName);
-               if (employees.contains(newEmployee)==true) {
-                   return newEmployee;
+        public Employee findEmployee (String firstName, String lastName) {
+               String fullName = firstName+" "+lastName;
+               if (employees.containsKey(fullName)) {
+                   return employees.get(fullName);
                } else {
                    throw new EmployeeNotFoundExcepation();
                }
         }
 
         @Override
-        public ArrayList<Employee> printAll () {
-            return employees;
+        public Collection<Employee> printAll () {
+            return employees.values();
         }
     }
 

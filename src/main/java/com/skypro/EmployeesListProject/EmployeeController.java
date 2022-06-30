@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/employee")
@@ -25,8 +26,9 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/print")
-    public ArrayList<Employee> printAll() {
+    public Collection<Employee> printAll() {
         return employeeService.printAll();
+
     }
 
     @GetMapping(path = "/remove")
@@ -38,7 +40,7 @@ public class EmployeeController {
     @GetMapping(path = "/find")
     public Employee findEmployee(@RequestParam(value = "firstName") String firstName,
                                  @RequestParam(value = "lastName") String lastName) {
-        return findEmployee(firstName, lastName);
+        return employeeService.findEmployee(firstName, lastName);
     }
 }
 
