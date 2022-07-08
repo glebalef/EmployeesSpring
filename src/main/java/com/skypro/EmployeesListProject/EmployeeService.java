@@ -1,15 +1,16 @@
 package com.skypro.EmployeesListProject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public interface EmployeeService {
 
-public Employee addEmployee (String firstName, String LastName);
+    public Employee addEmployee (String firstName, String LastName, double Salary, int department);
 
-public Employee removeEmployee (String firstName, String LastName);
+    public void removeEmployee (String firstName, String LastName);
 
-public Employee findEmployee (String firstName, String LastName);
+    public Employee findEmployee (String firstName, String LastName);
 
-public ArrayList<Employee> printAll ();
+    public Collection<Employee> printAll ();
 
 }

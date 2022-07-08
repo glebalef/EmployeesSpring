@@ -2,12 +2,17 @@ package com.skypro.EmployeesListProject;
 
 public class Employee {
 
-        private String firstName;
-        private String lastName;
+    private String firstName;
+    private String lastName;
+    private double salary;
 
-    public Employee(String firstName, String lastName) {
+    private int department;
+
+    public Employee(String firstName, String lastName, double salary, int department) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.salary = salary;
+        this.department = department;
     }
 
     public String getFirstName() {
@@ -26,6 +31,22 @@ public class Employee {
         this.lastName = lastName;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(int department) {
+        this.department = department;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,23 +54,29 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
-        if (getFirstName() != null ? !getFirstName().equals(employee.getFirstName()) : employee.getFirstName() != null)
-            return false;
-        return getLastName() != null ? getLastName().equals(employee.getLastName()) : employee.getLastName() == null;
+        if (!getFirstName().equals(employee.getFirstName())) return false;
+        return getLastName().equals(employee.getLastName());
     }
 
     @Override
     public int hashCode() {
-        int result = getFirstName() != null ? getFirstName().hashCode() : 0;
-        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        int result;
+        long temp;
+        result = getFirstName().hashCode();
+        result = 31 * result + getLastName().hashCode();
+        temp = Double.doubleToLongBits(getSalary());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getDepartment();
         return result;
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Employee{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", salary=" + salary +
+                ", department=" + department +
                 '}';
     }
 }

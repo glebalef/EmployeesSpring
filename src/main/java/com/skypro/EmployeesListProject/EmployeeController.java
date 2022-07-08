@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -20,25 +22,28 @@ public class EmployeeController {
 
     @GetMapping(path = "/add")
     public Employee addEmployee(@RequestParam(value = "firstName") String firstName,
-                                @RequestParam(value = "lastName") String lastName) {
-       return employeeService.addEmployee(firstName, lastName);
+                                @RequestParam(value = "lastName") String lastName,
+                                @RequestParam(value = "salary") double salary,
+                                @RequestParam(value = "department") int department) {
+        return employeeService.addEmployee(firstName, lastName, salary, department);
     }
 
+
     @GetMapping(path = "/print")
-    public ArrayList<Employee> printAll() {
+    public Collection<Employee> printAll() {
         return employeeService.printAll();
     }
 
     @GetMapping(path = "/remove")
-    public Employee removeEmployee(@RequestParam(value = "firstName") String firstName,
+    public void removeEmployee(@RequestParam(value = "firstName") String firstName,
                                    @RequestParam(value = "lastName") String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
-    }
+
+}
 
     @GetMapping(path = "/find")
     public Employee findEmployee(@RequestParam(value = "firstName") String firstName,
                                  @RequestParam(value = "lastName") String lastName) {
-        return findEmployee(firstName, lastName);
+        return employeeService.findEmployee(firstName, lastName);
     }
 }
 
