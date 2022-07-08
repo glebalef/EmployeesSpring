@@ -24,7 +24,12 @@ public class DepartmentController {
         return departmentService.findMaxEmployeeInDept(number);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/min-salary")
+    public Employee findMinEmployee(@RequestParam(value = "DeptNumber") Integer number) {
+        return departmentService.findMinEmployeeInDept(number);
+    }
+
+    @GetMapping(path = "/all/params")
     public List<Employee> printByDept(@RequestParam(value = "DeptNumber") Integer number) {
         return departmentService.listByDept(number);
     }

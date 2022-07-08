@@ -23,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return employeeService.printAll().stream()
                 .filter(e -> e.getDepartment() == deptNumber)
                 .max(Comparator.comparing(e -> e.getSalary()))
-                .get();
+                .orElseThrow(EmployeeNotFoundExcepation::new);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return employeeService.printAll().stream()
                 .filter(e -> e.getDepartment() == deptNumber)
                 .min(Comparator.comparing(e -> e.getSalary()))
-                .get();
+                .orElseThrow(EmployeeNotFoundExcepation::new);
     }
     @Override
     public List<Employee> listByDept(int deptNumber) {

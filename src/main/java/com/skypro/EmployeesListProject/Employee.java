@@ -6,7 +6,6 @@ public class Employee {
     private String lastName;
     private double salary;
 
-
     private int department;
 
     public Employee(String firstName, String lastName, double salary, int department) {
