@@ -1,5 +1,6 @@
 package com.skypro.EmployeesListProject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,9 @@ public class EmployeeController {
                                 @RequestParam(value = "lastName") String lastName,
                                 @RequestParam(value = "salary") double salary,
                                 @RequestParam(value = "department") int department) {
-        return employeeService.addEmployee(firstName, lastName, salary, department);
+        if (StringUtils.isAlpha(firstName)&&StringUtils.isAlpha(lastName)) {
+        } else throw new EmployeeWrongNameExeption();
+        return employeeService.addEmployee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), salary, department);
     }
 
 
@@ -43,7 +46,7 @@ public class EmployeeController {
     @GetMapping(path = "/find")
     public Employee findEmployee(@RequestParam(value = "firstName") String firstName,
                                  @RequestParam(value = "lastName") String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+        return employeeService.findEmployee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName));
     }
 }
 
