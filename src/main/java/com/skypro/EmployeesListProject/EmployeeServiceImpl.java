@@ -1,5 +1,6 @@
 package com.skypro.EmployeesListProject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -9,24 +10,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     Map<String, Employee> employees = new HashMap<>();
 
-   private final int maxEmployeesQuant = 7;
+    private final int maxEmployeesQuant = 7;
 
     @Override
     public Employee addEmployee(String firstName, String lastName, double Salary, int Department) {
-        Employee newEmployee = new Employee(firstName, lastName, Salary,Department);
-        String fullName = firstName+" "+lastName;
+        Employee newEmployee = new Employee(firstName, lastName, Salary, Department);
+        String fullName = firstName + " " + lastName;
+        if (!(StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)))
+            throw new EmployeeWrongNameExeption();
         if (employees.size() == maxEmployeesQuant) {
             throw new EmployeeStorageIsFullException();
         } else if (employees.containsKey(fullName)) {
             throw new EmployeeAlreadyAddedException();
         }
-        employees.put(fullName,newEmployee);
+        employees.put(fullName, newEmployee);
         return newEmployee;
     }
 
     @Override
-    public void removeEmployee (String firstName, String lastName) {
-        String fullName = firstName+" "+lastName;
+    public void removeEmployee(String firstName, String lastName) {
+        String fullName = firstName + " " + lastName;
+        if (!(StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)))
+            throw new EmployeeWrongNameExeption();
         if (!employees.containsKey(fullName)) {
             throw new EmployeeNotFoundExcepation();
         } else {
@@ -35,8 +40,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findEmployee (String firstName, String lastName) {
-        String fullName = firstName+" "+lastName;
+    public Employee findEmployee(String firstName, String lastName) {
+        String fullName = firstName + " " + lastName;
+        if (!(StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)))
+            throw new EmployeeWrongNameExeption();
         if (employees.containsKey(fullName)) {
             return employees.get(fullName);
         } else {
@@ -45,9 +52,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Collection<Employee> printAll () {
+    public Collection<Employee> printAll() {
         return employees.values();
     }
+
 }
 
 
